@@ -9,9 +9,9 @@
   
 <script>
 import { createWidgetMixin } from 'vue-instantsearch/vue3/es';
-import { connectInfiniteHits } from 'instantsearch.js/es/connectors';
+import { connectNumericMenu } from 'instantsearch.js/es/connectors';
 export default {
-    mixins: [createWidgetMixin({ connector: connectInfiniteHits })],
+    mixins: [createWidgetMixin({ connector: connectNumericMenu })],
     methods: {
         visibilityChanged(isVisible) {
             console.log("check vis", isVisible)
@@ -22,9 +22,3 @@ export default {
     },
 };
 </script>
-  
-<style scoped>
-.sentinel {
-    list-style-type: none;
-}
-</style>

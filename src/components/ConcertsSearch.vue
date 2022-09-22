@@ -1,6 +1,8 @@
 <script setup>
 import TypesenseInstantSearchAdapter from "typesense-instantsearch-adapter";
+import { history } from 'instantsearch.js/es/lib/routers';
 import ConcertItem from "./ConcertItem.vue";
+import InfiniteHits from "./InfiniteHits.vue";
 
 const typesenseInstantsearchAdapter = new TypesenseInstantSearchAdapter({
     server: {
@@ -25,6 +27,7 @@ const typesenseInstantsearchAdapter = new TypesenseInstantSearchAdapter({
 
 });
 let searchClient = typesenseInstantsearchAdapter.searchClient;
+let routing = { router: history() }
 
 
 function createMonthFilters(months = 12) {
@@ -51,7 +54,7 @@ function createMonthFilters(months = 12) {
     
 <template>
     <div class="concerts-search">
-        <ais-instant-search :search-client="searchClient" index-name="concerts">
+        <ais-instant-search :search-client="searchClient" index-name="concerts" :routing="routing">
             <div>
                 <h2>Konzertkalender</h2>
                 <div>
@@ -67,11 +70,11 @@ function createMonthFilters(months = 12) {
                 </div>
             </div>
 
-            <ais-hits>
+            <InfiniteHits>
                 <template #item="{ item }">
                     <ConcertItem :concertData="item" />
                 </template>
-            </ais-hits>
+            </InfiniteHits>
         </ais-instant-search>
     </div>
 </template>
