@@ -1,5 +1,5 @@
 <template>
-    <ol v-if="state">
+    <ol class="hits-list" v-if="state">
         <li v-for="hit in state.hits" :key="hit.objectID">
             <slot name="item" :item="hit"> </slot>
         </li>

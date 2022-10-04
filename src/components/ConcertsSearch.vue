@@ -40,7 +40,7 @@ function createMonthFilters(months = 12) {
         dateFilters.push({
             label: `${currentMonthFirstDay.toLocaleDateString('de-DE', { year: 'numeric', month: 'short' })}`,
             start: currentMonthFirstDay.getTime(),
-            end: currentMonthLastDay.getTime()
+            //end: currentMonthLastDay.getTime()
         });
         currentMonthFirstDay.setMonth(currentMonthFirstDay.getMonth() + 1, 1)
         currentMonthLastDay.setFullYear(currentMonthFirstDay.getFullYear())
@@ -56,20 +56,27 @@ function createMonthFilters(months = 12) {
     <div class="concerts-search">
         <ais-instant-search :search-client="searchClient" index-name="concerts" :routing="routing">
             <div>
-                <h2>Konzertkalender</h2>
+                <h2 class="text-5xl font-bold mb-5">Konzertkalender</h2>
                 <div>
                     <ais-numeric-menu attribute="datetime" :items="createMonthFilters()" />
                 </div>
-                <div class="flex gap-2">
+                <div class="flex gap-5 mt-10">
                     <div>
-                        <ais-search-box />
+                        <ais-search-box placeholder="Konzerte, Künstler, Komponisten ..." />
                     </div>
                     <div>
-                        <ais-refinement-list attribute="eventType" />
+                        <ais-refinement-list attribute="venue" :sort-by="['count:desc']" />
+                        <ais-refinement-list attribute="eventType" :sort-by="['count:desc']" />
                     </div>
                 </div>
             </div>
+            <div class="mt-24 mb-5 flex items-center justify-between">
+                <h2 class="text-5xl font-bold">
+                    Monat 2022
+                </h2>
 
+                <ais-toggle-refinement attribute="isGuestEvent" label="Gastveranstaltungen" />
+            </div>
             <InfiniteHits>
                 <template #item="{ item }">
                     <ConcertItem :concertData="item" />
@@ -81,3 +88,137 @@ function createMonthFilters(months = 12) {
     
 
     
+<style lang="scss">
+.concerts-search {
+    padding: 0 20px;
+    margin: 0 auto;
+    max-width: 1440px;
+}
+
+.ais-SearchBox-form {
+    padding: 8px 14px 8px 24px;
+    outline-offset: 0;
+    border-radius: 50px;
+    border: 1px solid black;
+    font-size: 18px;
+    line-height: 24px;
+    display: flex;
+    align-items: center;
+    width: 336px;
+
+    input {
+        flex: 1;
+        border: none;
+        outline: none;
+
+        &:focus-visible {
+            border: none;
+            outline: none;
+
+        }
+    }
+
+    .ais-SearchBox-submit {
+        svg {
+            width: 20px;
+            height: 20px;
+        }
+    }
+
+    .ais-SearchBox-reset {
+        display: none;
+    }
+}
+
+.ais-NumericMenu-list {
+    display: flex;
+    gap: 5px;
+    width: 100%;
+    overflow-x: auto;
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+
+    /* Firefox */
+    &::-webkit-scrollbar {
+        display: none;
+    }
+
+    li {
+        span {
+            display: block;
+            width: 120px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: black;
+            color: white;
+        }
+
+        &.ais-NumericMenu-item--selected {
+
+            span {
+                background: #fc0;
+                color: black;
+            }
+        }
+    }
+
+    input {
+        width: 0;
+        height: 0;
+        opacity: 0;
+        z-index: -1;
+        position: absolute;
+        left: -999px;
+        top: -999px;
+    }
+}
+
+.ais-RefinementList {
+    ul {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px 20px;
+
+        li {
+            label {
+                font-size: 18px;
+                line-height: 24px;
+                padding: 8px 20px;
+                border-radius: 40px;
+                border: 1px solid black;
+                display: block;
+
+                input {
+                    width: 0;
+                    height: 0;
+                    opacity: 0;
+                    z-index: -1;
+                    position: absolute;
+                    left: -999px;
+                    top: -999px;
+                }
+
+                .ais-RefinementList-count {
+                    margin-left: 6px;
+                }
+            }
+
+            &.ais-RefinementList-item--selected {
+                label {
+                    background: black;
+                    color: white;
+                }
+            }
+        }
+    }
+
+
+}
+
+.ais-RefinementList+.ais-RefinementList {
+    margin-top: 10px;
+}
+</style>

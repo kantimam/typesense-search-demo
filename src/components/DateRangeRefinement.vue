@@ -14,7 +14,6 @@ export default {
     mixins: [createWidgetMixin({ connector: connectNumericMenu })],
     methods: {
         visibilityChanged(isVisible) {
-            console.log("check vis", isVisible)
             if (isVisible && !this.state.isLastPage) {
                 this.state.showMore();
             }
