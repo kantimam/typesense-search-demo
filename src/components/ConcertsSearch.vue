@@ -3,6 +3,7 @@ import TypesenseInstantSearchAdapter from "typesense-instantsearch-adapter";
 import { history } from 'instantsearch.js/es/lib/routers';
 import ConcertItem from "./ConcertItem.vue";
 import InfiniteHits from "./InfiniteHits.vue";
+import { onMounted } from "vue";
 
 const typesenseInstantsearchAdapter = new TypesenseInstantSearchAdapter({
     server: {
@@ -49,6 +50,13 @@ function createMonthFilters(months = 12) {
     }
     return dateFilters;
 }
+
+
+onMounted(() => {
+    console.log("mounted")
+    console.log(searchClient)
+})
+
 
 </script>
     
