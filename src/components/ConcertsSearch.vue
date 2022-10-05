@@ -3,7 +3,6 @@ import TypesenseInstantSearchAdapter from "typesense-instantsearch-adapter";
 import { history } from 'instantsearch.js/es/lib/routers';
 import ConcertItem from "./ConcertItem.vue";
 import InfiniteHits from "./InfiniteHits.vue";
-import { onMounted } from "vue";
 
 const typesenseInstantsearchAdapter = new TypesenseInstantSearchAdapter({
     server: {
@@ -29,6 +28,8 @@ const typesenseInstantsearchAdapter = new TypesenseInstantSearchAdapter({
 });
 let searchClient = typesenseInstantsearchAdapter.searchClient;
 let routing = { router: history() }
+let searchFilters = ""
+//let searchFilters = "isGuestEvent:false"
 
 
 function createMonthFilters(months = 12) {
@@ -52,10 +53,6 @@ function createMonthFilters(months = 12) {
 }
 
 
-onMounted(() => {
-    console.log("mounted")
-    console.log(searchClient)
-})
 
 
 </script>
@@ -63,6 +60,7 @@ onMounted(() => {
 <template>
     <div class="concerts-search">
         <ais-instant-search :search-client="searchClient" index-name="concerts" :routing="routing">
+            <ais-configure :filters="searchFilters" />
             <div>
                 <h2 class="text-5xl font-bold mb-5">Konzertkalender</h2>
                 <div>
@@ -78,13 +76,25 @@ onMounted(() => {
                     </div>
                 </div>
             </div>
+
+            <ais-stats />
             <div class="mt-24 mb-5 flex items-center justify-between">
                 <h2 class="text-5xl font-bold">
                     Monat 2022
                 </h2>
 
-                <ais-toggle-refinement attribute="isGuestEvent" label="Gastveranstaltungen" />
+                <ais-toggle-refinement attribute="isGuestEvent" label="Gastveranstaltungen" on="false">
+                    <template v-slot="{ value, refine, createURL, sendEvent }">
+                        <a :href="createURL(value)" :style="{ fontWeight: value.isRefined ? 'bold' : '' }"
+                            @click.prevent="refine(value)">
+                            Gastveranstaltung {{value.isRefined? "anzeigen" : "verstecken" }}
+                            ({{ value.count }})
+                        </a>
+                    </template>
+                </ais-toggle-refinement>
             </div>
+
+
             <InfiniteHits>
                 <template #item="{ item }">
                     <ConcertItem :concertData="item" />
