@@ -42,7 +42,7 @@ function createMonthFilters(months = 12) {
         dateFilters.push({
             label: `${currentMonthFirstDay.toLocaleDateString('de-DE', { year: 'numeric', month: 'short' })}`,
             start: currentMonthFirstDay.getTime(),
-            //end: currentMonthLastDay.getTime()
+            end: currentMonthLastDay.getTime()
         });
         currentMonthFirstDay.setMonth(currentMonthFirstDay.getMonth() + 1, 1)
         currentMonthLastDay.setFullYear(currentMonthFirstDay.getFullYear())
@@ -60,7 +60,6 @@ function createMonthFilters(months = 12) {
 <template>
     <div class="concerts-search">
         <ais-instant-search :search-client="searchClient" index-name="concerts" :routing="routing">
-            <ais-configure :filters="searchFilters" />
             <div>
                 <h2 class="text-5xl font-bold mb-5">Konzertkalender</h2>
                 <div>
