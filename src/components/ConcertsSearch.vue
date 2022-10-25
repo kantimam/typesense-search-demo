@@ -42,7 +42,7 @@ function createMonthFilters(months = 12) {
         dateFilters.push({
             label: `${currentMonthFirstDay.toLocaleDateString('de-DE', { year: 'numeric', month: 'short' })}`,
             start: currentMonthFirstDay.getTime(),
-            end: currentMonthLastDay.getTime()
+            //end: currentMonthLastDay.getTime()
         });
         currentMonthFirstDay.setMonth(currentMonthFirstDay.getMonth() + 1, 1)
         currentMonthLastDay.setFullYear(currentMonthFirstDay.getFullYear())
@@ -70,7 +70,6 @@ function createMonthFilters(months = 12) {
                         <ais-search-box placeholder="Konzerte, Künstler, Komponisten ..." />
                     </div>
                     <div>
-                        <ais-refinement-list attribute="venue" :sort-by="['count:desc']" />
                         <ais-refinement-list attribute="eventType" :sort-by="['count:desc']" />
                     </div>
                 </div>
@@ -86,7 +85,7 @@ function createMonthFilters(months = 12) {
                     <template v-slot="{ value, refine, createURL, sendEvent }">
                         <a :href="createURL(value)" :style="{ fontWeight: value.isRefined ? 'bold' : '' }"
                             @click.prevent="refine(value)">
-                            Gastveranstaltung {{value.isRefined? "anzeigen" : "verstecken" }}
+                            Gastveranstaltung {{ value.isRefined ? "anzeigen" : "verstecken" }}
                             ({{ value.count }})
                         </a>
                     </template>
