@@ -11,7 +11,7 @@ const typesenseInstantsearchAdapter = new TypesenseInstantSearchAdapter({
             {
                 host: "typesense.bph.onl",
                 path: '/api/search', // Optional. Example: If you have your typesense mounted in localhost:8108/typesense, path should be equal to '/typesense'
-                port: "8180",
+                port: "443",
                 protocol: "https",
             },
         ],
