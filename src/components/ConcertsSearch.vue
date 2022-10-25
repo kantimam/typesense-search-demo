@@ -22,6 +22,7 @@ const typesenseInstantsearchAdapter = new TypesenseInstantSearchAdapter({
     //  query_by is required.
     additionalSearchParameters: {
         query_by: "title,shortDescription,eventType,venue,mainArtist,secondaryArtist",
+        sort_by: 'datetime:asc'
     },
 
 
